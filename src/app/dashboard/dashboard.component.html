@@ -1,0 +1,162 @@
+<nav class="navbar navbar-expand-lg navbar-dark custbg2 text-white">
+  <div class="navbar-nav mr-auto w-100">
+    <h3 class="ml-5"> Dashboard</h3>
+  </div>
+    <div class="navbar-collapse collpase ml-auto">
+    <a class="h6 text-white nav-link" [routerLink]="['']">Weather</a>
+    <a class="h5 text-white nav-link active" [routerLink]="['logout']" (click)="signOut()">Logout</a>    
+  </div>
+</nav>
+<div class="row h-100">
+<div class="col-md-2 custbg1"></div>
+<div class="col-md-9 mt-4 ml-2">
+<span class="my-2 ml-2"><button type="button" (click)=open(addForm) class="text-success" ><fa-icon [icon]="faPlus" size="2x"></fa-icon></button></span>
+<span class="float-right mr-2 text-primary">
+  <h3>{{currUser.name}}</h3>
+</span>
+        <table class="table table-responsive-md table-bordered custbg3 text-white table-striped table-hover mt-4">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Created By</th>
+                    <th>Modified By</th>
+                    <th>Edit</th>
+                    <th>X</th>
+                  </tr>
+                </thead>
+                <tbody class="p-4">                   
+                  <tr *ngFor="let user of users">
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.createdBy}}</td>
+                    <td>{{user.modifyBy}}</td>
+                    <td><button (click)="editUser(user.id,editForm)" class="text-white edit-button">
+                      <fa-icon [icon]="faEdit" size="2x"></fa-icon>
+                    </button></td>
+                    <td><button (click)="onDelete(user.id)" class="text-danger edit-button">
+                        <fa-icon [icon]="faMinusCircle" size="2x"></fa-icon>
+                      </button></td>
+                  </tr>                
+                </tbody>
+              </table>
+</div>
+</div>
+<ng-template #addForm let-modal>
+      <div class="modal-header text-center banner-title pb-4 mb-4">
+        <h3 class="modal-title w-100 text-center position-absolute"> Add User</h3>
+         <button class="close text-white" type="button" aria-label="close" (click)="modal.dismiss('Cross Click')">
+           <fa-icon [icon]="faTimesCircle" size="lg"></fa-icon></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addUserForm" (ngSubmit)="onAdd()" class="ml-5">
+          <div class="form-row mt-4 p-2">
+            <div class="col">
+              <input placeholder="Enter Name" class="form-control w-75" formControlName="name" type="text" />              
+              <span *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+                Name is required.
+              </span>
+              <span *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.pattern">
+                Only Alphabets allowed.
+              </span>
+            </div>
+            <div class="col">
+              <input placeholder="Enter Phone" class="form-control w-75" formControlName="phone" type="text" />                      
+              <span [innerHTML]="phoneUnique" class="text-danger"></span>
+              <span *ngIf="(phone.dirty || phone.touched) && phone.invalid && phone.errors.required">
+                Phone is required.
+              </span>
+              <span *ngIf="(phone.dirty || phone.touched) && phone.invalid && phone.errors.phoneValid && !phone.errors.required">
+                Invalid Phone number.
+              </span>
+            </div>
+          </div>
+          <div class="form-row mt-4 p-2">
+              <div class="col">
+                <input placeholder="Enter Username" class="form-control w-75" formControlName="username" type="text" />
+                <span [innerHTML]="unameUnique" class="text-danger"></span>
+                <span *ngIf="(username.dirty || username.touched) && username.invalid && username.errors.required">
+                  Username is required.
+                </span>
+              </div>
+              <div class="col">
+                <input placeholder="Enter Email" class="form-control w-75" formControlName="email" type="text" />        
+                <span [innerHTML]="emailUnique" class="text-danger"></span>
+                <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.required">
+                  Email is required.
+                </span>
+                <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.email">
+                  Invalid email
+                </span>
+              </div>
+          </div>
+          <div class="form-row mt-4 p-2">
+              <div class="col">
+                <input placeholder="Enter Password" class="form-control w-75" formControlName="password" type="password" />
+                <span *ngIf="(password.dirty || password.touched) && password.invalid && password.errors.required">
+                  Password is required.
+                </span>
+                <span *ngIf="(password.dirty || password.touched) && password.invalid && password.errors.minlength">
+                  Minimum 6 character length password.
+                </span>
+              </div>
+              <div class="col">
+                <input placeholder="Confirm Password" class="form-control w-75" type="password" />        
+              </div>
+          </div>
+          <div class="form-row mt-4 p-2">
+            <div class="col-md-4"></div>
+            <button type="submit" class="w-25 btn btn-primary" [disabled]="!addUserForm.valid">Add</button>
+          </div>
+        </form>
+      </div>      
+</ng-template>
+<ng-template #editForm let-modal>
+  <div class="modal-header text-center edit-banner-title pb-4 mb-4">
+    <h3 class="modal-title w-100 text-center position-absolute"> Update User</h3>
+     <button class="close text-white" type="button" aria-label="close" (click)="modal.dismiss('Cross Click')">
+       <fa-icon [icon]="faTimesCircle" size="lg"></fa-icon></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editUserForm" (ngSubmit)="onEdit()" class="ml-5">
+      <div class="form-row mt-4 p-2">
+        <div class="col">
+          <input placeholder="Enter Name" class="form-control w-75" formControlName="name" type="text" />
+        </div>
+        <div class="col">
+          <input placeholder="Enter Phone" class="form-control w-75" formControlName="phone" type="text" />        
+          <span [innerHTML]="phoneUnique" class="text-danger"></span>
+        </div>
+      </div>
+      <div class="form-row mt-4 p-2">
+          <div class="col">
+            <input placeholder="Enter Username" class="form-control w-75" formControlName="username" type="text" />
+            <span [innerHTML]="unameUnique" class="text-danger"></span>
+          </div>
+          <div class="col">
+            <input placeholder="Enter Email" class="form-control w-75" formControlName="email" type="text" />        
+            <span [innerHTML]="emailUnique" class="text-danger"></span>
+          </div>
+      </div>
+      <div class="form-row mt-4 p-2">
+          <div class="col">
+            <input placeholder="Enter Password" class="form-control w-75" formControlName="password" type="password" />
+          </div>
+          <div class="col">
+            <input placeholder="Confirm Password" class="form-control w-75" type="password" />        
+          </div>
+      </div>
+      <div class="form-row mt-4 p-2">
+        <div class="col-md-4"></div>
+        <button type="submit" class="w-25 btn btn-info">Update</button>
+      </div>
+    </form>
+  </div>      
+</ng-template>
+

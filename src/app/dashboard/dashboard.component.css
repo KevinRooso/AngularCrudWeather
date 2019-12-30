@@ -1,0 +1,36 @@
+.h-10{
+    height:10vh;
+}
+th{
+    font-weight: 500;
+}
+.modal-title{
+    font-size:35px !important;
+}
+.banner-title{
+    background: #0074D9;
+    color: #DDDDDD;
+}
+.edit-banner-title{
+    background: #001f3f;
+    color: #0074D9;
+}
+.edit-button{
+    border: none;
+    padding: 0;
+    background: none;
+}
+/* Table */
+.custbg3{
+    background: linear-gradient(to bottom, #2980b9, #2c3e50);
+}
+
+/* Banner */
+.custbg2{
+    background: linear-gradient(to top, #2b5876, #4e4376);
+}
+
+/*Dashboard column */
+.custbg1{
+    background: linear-gradient(to left, #4ca1af, #c4e0e5);
+}

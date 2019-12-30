@@ -1,0 +1,29 @@
+<div class="row mt-5">
+<div class="col-md-3"></div>
+<div class="col-md-7">
+<div *ngIf="loading else loaded"></div>
+<ng-template #loaded>
+  <div class="weather-card">
+    <div class="card-body pb-3">
+        <h3 class="card-title font-weight-bold">{{currData.name}}</h3>
+        <p class="card-text">Time: {{currData.dt}},Description: {{currData.weather[0].main}} Weather</p>
+        <div class="d-flex justify-content-between">
+            <p class="display-1 degree">{{currData.main.temp}} &deg;C</p>
+            <span *ngIf="currData.weather[0].main=='Mist'" ><fa-icon [icon]="faCloudSun" size="6x"></fa-icon></span>
+            <span *ngIf="currData.weather[0].main=='Smoke'||currData.weather[0].main=='Fog'"><fa-icon [icon]="faCloud" size="6x"></fa-icon></span>
+            <span *ngIf="currData.weather[0].main=='Clear'" class="text-warning"><fa-icon [icon]="faSun" size="6x"></fa-icon></span>
+            <span *ngIf="currData.weather[0].main=='Clouds'||currData.weather[0].main=='Rain'" class="text-secondary"><fa-icon [icon]="faCloudRain" size="6x"></fa-icon></span>
+            <span *ngIf="currData.weather[0].main=='Snow'" ><fa-icon [icon]="faSnowflake" size="6x"></fa-icon></span>
+        </div>
+        <div class="d-flex justify-content-between mb-4">
+            <p><span ><fa-icon [icon]="faTint"></fa-icon> {{currData.main.humidity}}% Humidity </span></p>
+            <p><span ><fa-icon [icon]="faWind"></fa-icon> {{currData.wind.speed}}m/s Winds</span></p>
+        </div>
+    </div>
+  </div>
+</ng-template>
+
+</div>
+</div>
+
+

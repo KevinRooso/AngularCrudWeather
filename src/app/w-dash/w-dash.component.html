@@ -1,0 +1,22 @@
+<div class="mt-4 p-3">
+   
+        <div class="row my-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-4">
+                <input type="text" [(ngModel)]="Latitude"  placeholder="Latitude"/>
+            </div>
+            <div class="col-md-4">
+                <input type="text" [(ngModel)]="Longitude" placeholder="Longitude"/>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 text-center">
+                <button type="button" (click)="OnGo()" class="btn btn-info w-25">Go</button>
+            </div>
+        </div>
+       
+   
+    </div>
+
+    <app-weather [lat]="Lat" [lon]="Lon"></app-weather>

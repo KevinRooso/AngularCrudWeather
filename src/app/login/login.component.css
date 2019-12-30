@@ -1,0 +1,35 @@
+@import url(https://fonts.googleapis.com/css?family=Graduate);
+.loginCard{
+    margin: 0 auto;
+    width:45%;
+    height:70vh;
+    margin-top:10vh;
+    text-align: center;
+    padding:0px;
+    padding-bottom:16px;
+    background: linear-gradient(to top, #ada996, #f2f2f2, #dbdbdb, #eaeaea);
+}
+
+.loginCard mat-form-field{    
+    margin-top: 5%;
+    width:80%;
+}
+
+.card-header{    
+    background: linear-gradient(to left, #1488cc, #2b32b2);
+    color: whitesmoke;
+    height: 10vh;
+    text-align:center;
+}
+mat-card-title{
+    font-size: 30px;
+    font-family: 'Graduate', cursive;
+}
+button{
+    width:50%;
+    margin:10%;
+}
+.btncolor1{
+    background: linear-gradient(to top, #ff416c, #ff4b2b);
+    color: whitesmoke;
+}
