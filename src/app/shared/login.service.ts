@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginService {
 
-  LOGIN_URL = "http://192.168.1.56:8080/authenticate";
+  LOGIN_URL = "http://192.168.1.56:8080/login";
 
   constructor(private http: HttpClient,private router: Router) { }
   
@@ -18,7 +18,7 @@ export class LoginService {
   }
 
   isUserLoggedIn(){
-    let user = sessionStorage.getItem("id");
+    let user = sessionStorage.getItem("username");
     return !(user == null);
   }
 
@@ -27,6 +27,6 @@ export class LoginService {
   }
   
   logout(){
-    sessionStorage.removeItem("id");    
+    sessionStorage.removeItem("username");    
   }
 }

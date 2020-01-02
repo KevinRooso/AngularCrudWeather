@@ -19,4 +19,8 @@
    
     </div>
 
-    <app-weather [lat]="Lat" [lon]="Lon"></app-weather>
+    <app-weather [lat]="Lat" [lon]="Lon" (info)="displayInfo($event)"></app-weather>
+
+    <div class="mt-4 p-2">
+        <p class="display-2 text-center text-primary">{{info}}</p>
+    </div>

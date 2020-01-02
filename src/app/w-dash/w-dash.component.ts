@@ -11,6 +11,7 @@ export class WDashComponent implements OnInit {
   Lon=77.0266;
   Latitude: any;
   Longitude: any;
+  info: any;
 
   constructor() { }
 
@@ -20,6 +21,10 @@ export class WDashComponent implements OnInit {
   OnGo(){
     this.Lat = this.Latitude;
     this.Lon = this.Longitude;
+  }
+
+  displayInfo(msg){
+    this.info = msg;
   }
 
 }

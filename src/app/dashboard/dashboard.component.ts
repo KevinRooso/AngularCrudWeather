@@ -13,8 +13,8 @@ import { phoneValidation } from '../Validators/phone-validator';
 })
 export class DashboardComponent implements OnInit {
 
-  //Id for login user
-  id =  sessionStorage.getItem("id");
+  //Username for current user
+  unm =  sessionStorage.getItem("username");
   
   //variable for current user and all users
   currUser : User;
@@ -73,14 +73,13 @@ sa
   constructor(private dashboardService : DashboardService, private modalService : NgbModal) { }
 
   ngOnInit() {  
-    this.getCurrentUser(this.id);
+    this.getCurrentUser(this.unm);
     this.showAll();
     console.log("After Login =>" + sessionStorage.getItem("id"));
   }
 
-  getCurrentUser(id: String){
-    let uid = Number(this.id);
-    this.dashboardService.getUserById(uid).subscribe(
+  getCurrentUser(unm: String){
+    this.dashboardService.getUserByUname(unm).subscribe(
       res => {        
         this.currUser = res.userData;
       },
@@ -94,8 +93,7 @@ sa
     this.dashboardService.showAllUsers().subscribe(
       res => {          
           this.users = res.userData;
-          //this.users = res.body.userData;
-          console.log(res);
+          console.log(res);          
       },
       err => {
         alert("Error occurred while retrieving all user data");

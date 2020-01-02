@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginservice : LoginService) { }
 
   ngOnInit() {
-    console.log("After Logout =>" + sessionStorage.getItem("id"));       
+    console.log("After Logout =>" + sessionStorage.getItem("username"));       
   }
   
   onSubmit(){
@@ -29,13 +29,15 @@ export class LoginComponent implements OnInit {
      this.loginservice.login(this.logindata)
      .subscribe(
        res=>{
-        //  if(res.httpStatus == 404){
-        //    alert(res.message);
-        //  }
-        //  else{
-        //    sessionStorage.setItem("id",res.userData.id);
-        //    this.loginservice.successful();
-        //  }
+         if(res.token == null){
+           alert("Wrong Username and Password");
+         }
+         else{
+           sessionStorage.setItem("username",this.logindata.username);
+           let tokenStr = 'Bearer ' + res.token;
+           sessionStorage.setItem("token",tokenStr);
+           this.loginservice.successful();
+         }
         console.log(res);
        },
        err=>{

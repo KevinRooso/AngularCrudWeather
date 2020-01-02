@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule} from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ import { ErrorComponent } from './error/error.component';
 import { LogoutComponent } from './logout/logout.component';
 import { WeatherComponent } from './weather/weather.component';
 import { WDashComponent } from './w-dash/w-dash.component';
+import { BasicAuthService } from './shared/basic-auth.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { WDashComponent } from './w-dash/w-dash.component';
     FontAwesomeModule,
     NgbModule
   ],
-  providers: [],
+  providers: [BasicAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,8 +12,8 @@ export class DashboardService {
 
   BASE_URL = "http://192.168.1.56:8080/";
   DASHBOARD_URL = this.BASE_URL+"dashboard";  
-  uid = sessionStorage.getItem("id");
-  USERID_URL = this.DASHBOARD_URL+"/"+this.uid;
+  unm = sessionStorage.getItem("username");
+  USERNAME_URL = this.DASHBOARD_URL+"/"+this.unm;
   ADDUSER_URL = this.BASE_URL+"adduser";
   UPDATE_URL = this.BASE_URL+"update";
   DELETE_URL = this.BASE_URL+"delete/";
@@ -21,6 +21,7 @@ export class DashboardService {
   constructor(private http: HttpClient,private router: Router) {}
 
   showAllUsers(): Observable<UserObject>{
+    console.log(sessionStorage.getItem("token"));
     return this.http.get<UserObject>(this.DASHBOARD_URL);
   }
 
@@ -29,8 +30,8 @@ export class DashboardService {
   }
 */
 
-  getUserById(id : number): Observable<any> {    
-    return this.http.post<any>(this.USERID_URL,id);
+  getUserByUname(unm : String): Observable<any> {    
+    return this.http.post<any>(this.USERNAME_URL,unm);
   }
 
   saveUser(user : User): Observable<any>{
