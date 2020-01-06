@@ -6,6 +6,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { phoneValidation } from '../Validators/phone-validator';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -32,7 +33,7 @@ export class DashboardComponent implements OnInit {
   
   //Add User Form Group
   addUserForm = new FormGroup({
-    name : new FormControl('',[Validators.required,Validators.pattern("^[a-zA-Z]+$")]),
+    name : new FormControl('',[Validators.required,Validators.pattern("^[a-zA-Z ]+$")]),
     username : new FormControl('',[Validators.required]),
     password : new FormControl('',[Validators.required, Validators.minLength(6)]),
     email : new FormControl('',[Validators.required,Validators.email]),

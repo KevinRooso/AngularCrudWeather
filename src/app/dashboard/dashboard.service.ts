@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { User } from 'src/user.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserObject } from 'src/user-object';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,44 @@ export class DashboardService {
   UPDATE_URL = this.BASE_URL+"update";
   DELETE_URL = this.BASE_URL+"delete/";
 
+  headers = new HttpHeaders({
+    Authorization: sessionStorage.getItem("token")
+  });
+
+  getDecodedAccessToken(token: string): any {
+    try{
+        return jwt_decode(token);
+    }
+    catch(Error){
+        return null;
+    }
+  }
+
+  getRfTime(){
+    if(this.time.getMinutes()>this.rfTime.getMinutes()){
+      if(this.time.getMinutes() - this.rfTime.getMinutes() < 10){
+           console.log("Re Auth Called");
+        }
+      }
+      else{
+        if(this.rfTime.getMinutes() - this.time.getMinutes() < 10){
+          console.log("Re Auth Called");
+        }
+      }
+  }
+
+  tokenInfo = this.getDecodedAccessToken(sessionStorage.getItem("token"));
+  exp = this.tokenInfo.exp;
+  time : Date = new Date(this.exp * 1000)
+  rfTime = new Date();
+
   constructor(private http: HttpClient,private router: Router) {}
 
   showAllUsers(): Observable<UserObject>{
     console.log(sessionStorage.getItem("token"));
-    return this.http.get<UserObject>(this.DASHBOARD_URL);
+    console.log(this.time.toLocaleTimeString());
+    this.getRfTime();
+    return this.http.get<UserObject>(this.DASHBOARD_URL,{headers : this.headers});
   }
 
 /*  showAllUsers(): Observable<HttpResponse<User[]>>{
@@ -31,19 +65,19 @@ export class DashboardService {
 */
 
   getUserByUname(unm : String): Observable<any> {    
-    return this.http.post<any>(this.USERNAME_URL,unm);
+    return this.http.post<any>(this.USERNAME_URL,unm,{headers : this.headers});
   }
 
   saveUser(user : User): Observable<any>{
-    return this.http.post<any>(this.ADDUSER_URL,user);
+    return this.http.post<any>(this.ADDUSER_URL,user,{headers : this.headers});
   }
 
   editUser(user : User): Observable<any>{
-    return this.http.post<any>(this.UPDATE_URL,user);
+    return this.http.post<any>(this.UPDATE_URL,user,{headers : this.headers});
   }
 
   deleteUser(id : number): Observable<any>{
-    return this.http.delete<any>(this.DELETE_URL+id);
+    return this.http.get<any>(this.DELETE_URL+id,{headers : this.headers});
   }
 
   logUserOut(){
