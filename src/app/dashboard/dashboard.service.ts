@@ -18,6 +18,7 @@ export class DashboardService {
   ADDUSER_URL = this.BASE_URL+"adduser";
   UPDATE_URL = this.BASE_URL+"update";
   DELETE_URL = this.BASE_URL+"delete/";
+  REFRESH_URL = this.BASE_URL+"token";
 
   headers = new HttpHeaders({
     Authorization: sessionStorage.getItem("token")
@@ -38,8 +39,15 @@ export class DashboardService {
       this.rfTime.setMinutes(0);
       this.time.setMinutes(this.time.getMinutes()+temp);
     }
-    if(this.time.getMinutes() - this.rfTime.getMinutes() < 4 && this.time.getMinutes() - this.rfTime.getMinutes() > 0){
-           console.log("Re Auth Called");
+    if(this.time.getMinutes() - this.rfTime.getMinutes() < 14 && this.time.getMinutes() - this.rfTime.getMinutes() > 0){
+      this.http.get<any>(this.REFRESH_URL,{headers : this.headers}).subscribe(
+        res => {
+          sessionStorage.setItem("token",res);
+        },
+        err => {
+          console.log(err);
+        }
+      );        
     }      
   }
 
