@@ -33,16 +33,14 @@ export class DashboardService {
   }
 
   getRfTime(){
-    if(this.time.getMinutes()>this.rfTime.getMinutes()){
-      if(this.time.getMinutes() - this.rfTime.getMinutes() < 10){
+    if(this.time.getMinutes()+this.rfTime.getMinutes()>=60){
+      let temp = 60 - this.rfTime.getMinutes();
+      this.rfTime.setMinutes(0);
+      this.time.setMinutes(this.time.getMinutes()+temp);
+    }
+    if(this.time.getMinutes() - this.rfTime.getMinutes() < 4 && this.time.getMinutes() - this.rfTime.getMinutes() > 0){
            console.log("Re Auth Called");
-        }
-      }
-      else{
-        if(this.rfTime.getMinutes() - this.time.getMinutes() < 10){
-          console.log("Re Auth Called");
-        }
-      }
+    }      
   }
 
   tokenInfo = this.getDecodedAccessToken(sessionStorage.getItem("token"));
